@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Erika Muñoz Zuñiga – Portafolio</title>
+  <meta name="description"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#f9f9fb;
+      --muted:#555;
+      --text:#222;
+      --accent:#7c6cff;
+      --accent-2:#00b894;
+      --card:#ffffff;
+      --card-2:#f6f6f8;
+      --ring: 0 0 0 2px var(--accent);
+      --radius: 16px;
+      --shadow: 0 6px 20px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); background:var(--bg);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.4; overflow-x:hidden;
+    }
+
+    /* Fondo estilo grid + radial */
+    .bg-anim{
+      position:fixed; inset:0; z-index:-2;
+    }
+    .bg-anim::before{
+      content:""; position:absolute; inset:0;
+      background:
+        linear-gradient(to right,#f0f0f0 1px,transparent 1px),
+        linear-gradient(to bottom,#f0f0f0 1px,transparent 1px);
+      background-size:6rem 4rem;
+    }
+    .bg-anim::after{
+      content:""; position:absolute; inset:0;
+      background:radial-gradient(circle 800px at 100% 200px,#d5c5ff,transparent);
+    }
+
+    /* Navbar */
+    .nav{
+      position:sticky; top:0; backdrop-filter:saturate(120%) blur(10px);
+      background:rgba(255,255,255,.8);
+      border-bottom:1px solid rgba(0,0,0,.06);
+      z-index:50;
+    }
+    .nav-inner{max-width:1100px; margin-inline:auto; display:flex; align-items:center; justify-content:space-between; padding:14px 20px}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:800; letter-spacing:.3px; color:var(--text); text-decoration:none}
+    .brand .dot{width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 0 8px rgba(124,108,255,.4)}
+
+    .menu{display:flex; gap:2px; align-items:center; position:relative}
+    .menu a{
+      display:grid; place-items:center; padding:10px 14px; border-radius:12px; color:var(--muted); text-decoration:none; font-weight:600;
+      transition: color .2s ease, transform .2s ease;
+    }
+    .menu a:hover{color:var(--text); transform: translateY(-1px)}
+
+    .active-dot{
+      position:absolute; bottom:-2px; height:6px; width:6px; border-radius:50%; background:var(--accent);
+      box-shadow:0 0 0 6px rgba(124,108,255,.15), 0 6px 20px rgba(124,108,255,.35);
+      transform:translateX(-9999px); transition: transform .28s cubic-bezier(.22,.61,.36,1);
+    }
+
+    /* Layout */
+    .wrap{max-width:1100px; margin-inline:auto; padding:48px 20px}
+    .section{padding:64px 0}
+    .kicker{color:var(--accent-2); font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:.8rem}
+    h1{font-size: clamp(2.2rem, 3.4vw + 1rem, 4rem); line-height:1.05; margin:10px 0 12px}
+    h2{font-size: clamp(1.4rem, 1.2vw + 1rem, 2rem); margin:0 0 8px}
+    p.lead{color:#444; font-size: clamp(1rem, .5vw + .9rem, 1.2rem)}
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center;}
+    .tagline{display:flex; gap:8px; flex-wrap:wrap}
+    .tag{background: #f0f0f6; border:1px solid rgba(0,0,0,.05); color:#333;
+      padding:8px 12px; border-radius:999px; font-weight:600; font-size:.92rem}
+
+    .hero-card{
+      background: linear-gradient(180deg, var(--card), var(--card-2)); border:1px solid rgba(0,0,0,.06); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding:22px; position:relative; overflow:hidden;
+    }
+    .hero-card .grid{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px;
+    }
+    .thumb{aspect-ratio: 16/10; border-radius: 12px; background-position: center; background-size: cover; border:1px solid rgba(0,0,0,.05); overflow:hidden; position:relative;}
+    .thumb::after{content:"preview"; position:absolute; right:10px; bottom:6px; font-size:.7rem; color:rgba(0,0,0,.35)}
+
+    .cta-row{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap}
+    .btn{appearance:none; border:none; cursor:pointer; font-weight:700; letter-spacing:.2px; padding:12px 16px; border-radius:12px}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#a391ff); color:#fff}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(0,0,0,.12)}
+    .btn:hover{filter:saturate(110%)}
+
+    /* Filtros */
+    .filters{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 18px}
+    .chip{padding:8px 12px; border:1px solid rgba(0,0,0,.12); border-radius:999px; color:#333; cursor:pointer; user-select:none; font-weight:600; background:#fff}
+    .chip[data-active="true"]{background:rgba(124,108,255,.12); border-color:rgba(124,108,255,.35)}
+
+    /* Grid */
+    .grid{display:grid; grid-template-columns: repeat(12,1fr); gap:16px}
+    .card{
+      grid-column: span 6; background:linear-gradient(180deg,var(--card),var(--card-2)); border:1px solid rgba(0,0,0,.06);
+      border-radius:16px; overflow:hidden; position:relative; transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover{transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.15)}
+    .cover{aspect-ratio:16/10; background:#fafafa; display:grid; place-items:center}
+    .cover canvas,.cover img{width:100%; height:100%; object-fit:cover; display:block}
+    .meta{padding:14px 16px 16px}
+    .meta .t{font-weight:800; letter-spacing:.2px}
+    .meta .k{color:#666; font-family:"JetBrains Mono", monospace; font-size:.85rem}
+
+    /* About */
+    .about{display:grid; grid-template-columns:1fr 1fr; gap:24px}
+    .panel{background:linear-gradient(180deg,var(--card),var(--card-2)); border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:22px}
+
+    /* Contacto */
+    form{display:grid; gap:12px; max-width:680px}
+    .field{display:grid; gap:6px}
+    .in{padding:12px 14px; border-radius:12px; background:#fff; border:1px solid rgba(0,0,0,.12); color:var(--text); outline:none}
+    .in:focus{box-shadow:var(--ring); border-color:transparent}
+
+    /* Footer */
+    footer{opacity:.8; font-size:.95rem; padding:30px 0; border-top:1px solid rgba(0,0,0,.08)}
+
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .about{grid-template-columns:1fr}
+      .card{grid-column: span 12}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim" aria-hidden="true"></div>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">
+        <span class="dot"></span>
+        <span>Erika Muñoz Zuñiga</span>
+      </a>
+      <div class="menu" id="menu">
+        <a href="#proyectos">Proyectos</a>
+        <a href="#about">Sobre mí</a>
+        <a href="#contacto">Contacto</a>
+        <span class="active-dot" id="activeDot"></span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <!-- HERO / INTRO -->
+    <section class="section" id="inicio">
+      <span class="kicker">Creative Coding · Web</span>
+      <h1>Hola, soy <span style="color:var(--accent)">Erika Muñoz Zuñiga</span>.<br/></h1>
+      <p class="lead">Estudiante de Ingeniería de Sistemas</p>
+
+      <div class="hero" style="margin-top:22px">
+        <div>
+          <div class="tagline">
+            <span class="tag">HTML</span>
+            <span class="tag">Bootstrap</span>
+            <span class="tag">SpringBoot</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Phyton</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">MongoDB</span>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="#proyectos">Ver proyectos</a>
+            <a class="btn ghost" href="#contacto">Escríbeme</a>
+          </div>
+        </div>
+
+        <!-- Tarjeta de previews (reemplaza imágenes por las tuyas) -->
+        <aside class="hero-card">
+          <h2 style="margin:0">Últimos trabajos</h2>
+          <div class="grid">
+            <div class="thumb" style="background-image:url('imagenes/Captura de pantalla 2025-08-25 103215.png');"></div>
+            <div class="thumb" style="background-image:url('imagenes/Captura\ de\ pantalla\ 2025-08-25\ 101938.png')"></div>
+
+          </div>
+          <div class="cta-row">
+            <a class="btn ghost" href="#about">Conóceme</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section class="section" id="proyectos">
+      <span class="kicker">Proyectos</span>
+      <h2>Selección de trabajos</h2>
+      <div class="filters" id="filters">
+        <!-- Cambia/añade categorías según tus necesidades -->
+        <span class="chip" data-filter="all" data-active="true">Todos</span>
+        <span class="chip" data-filter="web">Web</span>
+        <span class="chip" data-filter="science">Análisis de Datos</span>
+      </div>
+
+      <div class="grid" id="projects">
+        <!-- CARD 1 -->
+        <article class="card" data-tags="web" onclick="window.open('https://github.com/Emm3-z/FamPet.io.git')" style="cursor:pointer;">
+          <div class="cover">
+            <img src="imagenes/Captura de pantalla 2025-08-25 103215.png" alt="Fam Pet">
+          </div>
+          <div class="meta">
+            <div class="t">Peluditos al Rescate</div>
+            <div class="k">HTML · CSS · PHP · MySQL · Xampp · JavaScript · Figma</div>
+          </div>
+          <a class="btn ghost" style="margin:0 16px 18px" href="#" data-open-modal="#p1" onclick="event.stopPropagation()">Detalles</a>
+        </article>
+
+        <!-- CARD 2 -->
+        <article class="card" data-tags="science" onclick="window.open('https://colab.research.google.com/drive/1xZAvUH1LDsjhtiRalkkOMi-lZNvJKBYb?authuser=2')" style="cursor:pointer;">
+          <div class="cover"><img src="https://miro.medium.com/v2/resize:fit:1358/1*lQWibRJ1d2RqwCOeqORFSA.jpeg" alt="Árboles de Decisión"/></div>
+          <div class="meta">
+            <div class="t">Aprendizaje Automático</div>
+            <div class="k">Python · Scikit-learn · Pandas</div>
+          </div>
+          <a class="btn ghost" style="margin:0 16px 18px" href="#" data-open-modal="#p2" onclick="event.stopPropagation()">Detalles</a>
+        </article>
+
+        <!-- CARD 3 -->
+        <article class="card" data-tags="web" onclick="window.open('https://github.com/Emm3-z/Erika-Mu-oz-Zu-iga-Parcial1.github.io.git')" style="cursor:pointer;">
+          <div class="cover"><img src="imagenes/Imagen de WhatsApp 2025-08-25 a las 10.56.14_d05179ed.jpg" alt="Grupos Investigativos"/></div>
+          <div class="meta">
+            <div class="t">Registro Investigativo</div>
+            <div class="k">HTML · Bootstrap · JavaScript</div>
+          </div>
+          <a class="btn ghost" style="margin:0 16px 18px" href="#" data-open-modal="#p3" onclick="event.stopPropagation()">Detalles</a>
+        </article>
+
+        <!-- CARD 4 -->
+        <article class="card" data-tags="science" onclick="window.open('https://colab.research.google.com/drive/14hWHJ3bCB_bUwld50yFJ1XU8_7dmhDE5?authuser=2')" style="cursor:pointer;">
+          <div class="cover"><img src="https://img.freepik.com/premium-photo/network-with-pins_93675-535.jpg" alt="Audio Visual"/></div>
+          <div class="meta">
+            <div class="t">Clustering</div>
+            <div class="k">Python · Pandas</div>
+          </div>
+          <a class="btn ghost" style="margin:0 16px 18px" href="#" data-open-modal="#p4" onclick="event.stopPropagation()">Detalles</a>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <span class="kicker">Sobre mí</span>
+      <h2>Estudiante de Ingeniería de Sistemas</h2>
+      <div class="about">
+        <div class="panel">
+          <p>Soy estudiante de Ingeniería de Sistemas en la Universidad Santiago de Cali. 
+            Me apasiona el desarrollo web y la programación creativa con JavaScript.</p>
+          <ul>
+            <li>Actualmente estoy aprendiendo diseño UX/UI.</li>
+            <li>En aprendizaje de creación de apps con Phyton.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3 style="margin-top:0">Servicios</h3>
+          <ul>
+            <li>Creación de páginas web estáticas con HTML, CSS y JavaScript.</li>
+            <li>Sitios webs adaptables</li>
+            <li>Uso de MySQL o MongoDB para manejar información.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section" id="contacto">
+      <span class="kicker">Contacto</span>
+      <div style="display:flex; gap:10px">
+          <a href="https://github.com/Emm3-z" class="btn ghost" style="padding:8px 12px">GitHub</a>
+          <a href="documentoCV/HOJA DE VIDA.pdf" class="btn ghost" style="padding:8px 12px">CV</a>
+      </div>
+    </section>
+
+    <footer class="wrap" style="padding-top:0">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+        <small>© <span id="year"></span> Erika Muñoz Zuñiga</small>
+      </div>
+    </footer>
+  </main>
+
+  <!-- MODALES de ejemplo (duplica y edita) -->
+  <dialog id="p1" class="panel" style="max-width:720px; width:clamp(320px, 90vw, 720px)">
+    <h3 style="margin-top:0">Peluditos al Rescate</h3>
+    <p>Este proyecto busca facilitar el seguimiento de procesos de adopción y rescate de perros y gatos. 
+      Solventando el desamparo que permiten muchas personas y plataformas al no garantizar la protección y 
+      cuidado de las mascotas domésticas por parte del adoptante, concluyendo en que las mascotas vuelvan a situación 
+      de calle o en peligro dentro de su hogar. Este proyecto va dirigido a quienes encuentren, sean hogar de paso o 
+      quieran realizar donaciones a los peluditos, beneficiando así a las mismas mascotas, a sus dueños o inclusive a la familia adoptante.</p>
+    <button class="btn ghost" data-close>cerrar</button>
+  </dialog>
+
+  <dialog id="p2" class="panel" style="max-width:720px; width:clamp(320px, 90vw, 720px)">
+    <h3 style="margin-top:0">Aprendizaje Automático</h3>
+    <p>Clasificador de deserción usando <strong>bosque aleatorio</strong>.
+    Robusto al ruido y valores atípicos; con el objetivo de entrenar un modelo que realice predicciones de deserción estudiantil.</p>
+    <button class="btn ghost" data-close>cerrar</button>
+  </dialog>
+
+  <dialog id="p3" class="panel" style="max-width:720px; width:clamp(320px, 90vw, 720px)">
+    <h3 style="margin-top:0">Registro Investigativo</h3>
+    <p>Proyecto que facilita el registro de actividades para los grupos de investigación (COMBA I+D e Informa),
+      Además un listado de los encargados.
+    </p>
+    <button class="btn ghost" data-close>cerrar</button>
+  </dialog>
+
+  <dialog id="p4" class="panel" style="max-width:720px; width:clamp(320px, 90vw, 720px)">
+    <h3 style="margin-top:0">Clustering</h3>
+    <p>Clasificador que presenta la correlación del cáncer de mama con diferentes parámetros estandarizados que hacen parte de su historial.</p>
+    <button class="btn ghost" data-close>cerrar</button>
+  </dialog>
+
+  <script src="functionsP.js"></script>
+</body>
+</html>
+
